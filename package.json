@@ -1,0 +1,30 @@
+{
+  "name": "rrapp",
+  "version": "1.0.0",
+  "description": "",
+  "main": "server.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "node server.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/rspicer/rrapp.git"
+  },
+  "author": "Ryan Spicer",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/rspicer/rrapp/issues"
+  },
+  "homepage": "https://github.com/rspicer/rrapp#readme",
+  "dependencies": {
+    "body-parser": "^1.13.3",
+    "bookshelf": "^0.8.2",
+    "cors": "^2.7.1",
+    "express": "^4.13.3",
+    "knex": "^0.8.6",
+    "lodash": "^3.10.1",
+    "mysql": "^2.9.0",
+    "when": "^3.7.3"
+  }
+}
