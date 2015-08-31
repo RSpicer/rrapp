@@ -29,13 +29,8 @@ var allowCrossDomain = function(req, res, next) {
 };
 
 app.use(allowCrossDomain);
-// parse application/x-www-form-urlencoded
 app.use(bodyParser.urlencoded());
-
-// parse application/json
 app.use(bodyParser.json());
-
-// parse application/vnd.api+json as json
 app.use(bodyParser.json({type: 'application/vnd.api+json'}));
 
 // elsewhere, to use the bookshelf client:
@@ -45,7 +40,6 @@ var bookshelf = app.get('bookshelf');
 var Race = bookshelf.Model.extend({
   tableName: 'races'
 })
-
 
 var router = express.Router();
 
@@ -80,6 +74,46 @@ router.route('/races')
       res.status(500).json({error: true, data: {message: err.message}});
     }); 
   });
+
+  router.route('/races/:raceid')
+  // fetch user
+  .get(function (req, res) {
+    Race.forge({raceid: req.params.raceid})
+    .fetch()
+    .then(function (race) {
+      if (!race) {
+        res.status(404).json({error: true, data: {}});
+      }
+      else {
+        res.json({error: false, data: race.toJSON()});
+      }
+    })
+    .otherwise(function (err) {
+      res.status(500).json({error: true, data: {message: err.message}});
+    });
+  })
+  // update user details
+  .put(function (req, res) {
+    Race.forge({raceid: req.params.raceid})
+    .fetch({require: true})
+    .then(function (race) {
+      race.save({
+        raceid: req.body.raceid || race.get('raceid'),
+        racer: req.body.race || race.get('racer'),
+        track: req.body.track || race.get('track')
+      })
+      .then(function () {
+        res.json({error: false, data: {message: 'Race details updated'}});
+      })
+      .otherwise(function (err) {
+        res.status(500).json({error: true, data: {message: err.message}});
+      });
+    })
+    .otherwise(function (err) {
+      res.status(500).json({error: true, data: {message: err.message}});
+    });
+  })
+
 
 app.use('/api', router);
 
