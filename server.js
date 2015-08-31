@@ -1,4 +1,6 @@
-// When the app starts
+/// When the app starts
+
+
 var express = require('express');
 var app = express();
 var bodyParser = require('body-parser');
