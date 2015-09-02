@@ -27,9 +27,13 @@ var csRacers = bookshelf.Collection.extend({
 	model: csRacer
 })
 
-var options = {
+var options = {};
+var racerID = 1000001;
+
+for (var i = 0; i <= 26; i++){
+options = {
 	host: 'aisbaltimore.clubspeedtiming.com',
-	path: '/api/index.php/racers/1000002?key=' + key
+	path: '/api/index.php/racers/' + racerID + '?key=' + key
 }
 
 http.get(options, function(res) {
@@ -47,7 +51,10 @@ http.get(options, function(res) {
 			// created_at: parsed.racer.created_at,
 			visits: parsed.racer.visits,
 			races: parsed.racer.races		
-		}).save()
+		}).save().then(function (model) {
+			console.log(model);
+			console.log(racerID);
+		})
 		// // knex('csracers').insert({
 		// 	id: parsed.racer.id,
 		// 	name: parsed.racer.name.nickname,
@@ -56,9 +63,13 @@ http.get(options, function(res) {
 		// 	visits: parsed.racer.visits,
 		// 	races: parsed.racer.races
 		// })
-	});
-}).on('error', function(e) {
-	console.log('Got error:' + e.message);
-}).on('end', function() {
-	console.log('Done!');
+	}).on('end', function() {
+		console.log('end!');
+	})
+// }).on('error', function(e) {S
+// 	console.log('Got error:' + e.message);
+// }).on('end', function() {
+// 	console.log('Done!');
 })
+	racerID++;
+}

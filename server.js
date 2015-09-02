@@ -32,6 +32,9 @@ app.use(allowCrossDomain);
 app.use(bodyParser.urlencoded());
 app.use(bodyParser.json());
 app.use(bodyParser.json({type: 'application/vnd.api+json'}));
+app.use(cors());
+
+app.use(express.static('public'));
 
 // elsewhere, to use the bookshelf client:
 var bookshelf = app.get('bookshelf');
